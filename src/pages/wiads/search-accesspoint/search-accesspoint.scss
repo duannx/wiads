@@ -1,0 +1,95 @@
+page-search-accesspoint {
+    .searchbar {
+        background: transparent !important;
+        border-bottom: none !important;
+    }
+    .wa-search-inputs {
+        margin-bottom: 10px;
+    }
+    .wa-content-group {
+        padding-bottom: 0 !important;
+        padding-top: 0 !important;
+    }
+    .history-item {
+        display: flex;
+        width: 100%;
+        overflow: hidden;
+        height: map-get($WiadsSize, lineheight) * 1.5;
+        line-height: map-get($WiadsSize, lineheight) * 1.5;
+        position: relative;
+        .wa-search-inputs-item {
+            padding: 0;
+            display: table;
+        }
+        .button-delete {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 0 10px;
+            height: map-get($WiadsSize, lineheight) * 1.5;
+            line-height: map-get($WiadsSize, lineheight) * 1.5;
+            background-color: transparent;
+        }
+        .button-search {
+            padding: 0 10px;
+            height: map-get($WiadsSize, lineheight) * 1.5;
+            line-height: map-get($WiadsSize, lineheight) * 1.5;
+            background: transparent
+        }
+    }
+    .search-result-item {
+        width: 100%;
+        height: map-get($WiadsSize, lineheight) * 2;
+        line-height: map-get($WiadsSize, lineheight);
+        display: flex;
+        margin-bottom: 5px;
+        overflow: hidden;
+    }
+    .marker-icon {
+        width: map-get($WiadsSize, lineheight) * 2;
+        height: map-get($WiadsSize, lineheight) * 2;
+        text-align: center;
+        padding: 3px 0;
+        img {
+            display: block;
+            width: auto;
+            height: 100%;
+            margin: 0 auto;
+        }
+    }
+    .search-result-item-content {
+        flex: 1;
+        height: 100%;
+    }
+    .searchbar-input {
+        line-height: 1em !important;
+        font-size: 1em !important;
+        border-radius: 20px;
+        box-shadow: none !important;
+        color: gray !important;
+    }
+    .searchbar-md .searchbar-search-icon {
+        top: 5px !important;
+        opacity: .7;
+    }
+    .ap-name,
+    .ap-address {
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
+    }
+    .ap-name {
+        font-weight: bold;
+    }
+    .wa-header-icon-left {
+        position: initial !important;
+        float: left;
+    }
+    .divSearchbar {
+        float: left;
+        width: 80%;
+        width: calc(100% - 25px - #{map-get($WiadsSize, fontsize)})
+    }
+}

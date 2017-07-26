@@ -1,0 +1,108 @@
+<ion-content class="wa-ion-content">
+    <div class="wa-content">
+        <div class="wa-content-group">
+            <div class="wa-title-bar">
+                <span nowrap>Thông tin thiết bị</span>
+            </div>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-12>Tên quán</ion-col>
+                    <ion-col col-12><input class="wa-input" type="text" value="{{accesspoint.mName}}"></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>Địa chỉ</ion-col>
+                    <ion-col col-12><input class="wa-input" type="text" value="{{accesspoint.mAddress}}"></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>Chủ quán</ion-col>
+                    <ion-col col-12><input class="wa-input" type="text" value="{{accesspoint.mOwner}}"></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>Trạng thái</ion-col>
+                    <ion-col col-12><span>{{accesspoint.mLastTimeOnline}}</span></ion-col>
+                </ion-row>
+            </ion-grid>
+            <div style="padding: 0 10px;">
+                <div class="divider"></div>
+            </div>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Chọn chế độ hoạt động (QC/thường)</span>
+                    </ion-col>
+                    <ion-col>
+                        <div class="wa-input" (click)="selectMode()">
+                            <span class="text" nowrap>{{selectedMode.name}}</span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Chọn tốc độ - Thời gian sử dụng</span>
+                    </ion-col>
+                    <ion-col>
+                        <div class="wa-input" (click)="selectBanwidth()">
+                            <span class="text" nowrap>{{selectedBanwidth.name}}</span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Chọn mẫu màn hình login</span>
+                    </ion-col>
+                    <ion-col>
+                        <div class="wa-input" (click)="selectTemplateLogin()">
+                            <span class="text" nowrap>{{selectedtemplateLogin.name}}</span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <div class="wa-content-group">
+            <div class="wa-content-group">
+                <div class="wa-title-bar">
+                    <span nowrap>Thống kê</span>
+                </div>
+                <ion-row padding>
+                    <ion-col>
+                        <div class="wa-input">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            <span class="text" nowrap>{{getViewDate(startTime)}} - {{getViewDate(endTime)}}</span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-7>
+                        <div class="chart-container" text-center>
+                            <canvas id="ap-detail-chart"></canvas>
+                        </div>
+                    </ion-col>
+                    <ion-col col-5 flex-center>
+                        <div class="advertse-statistic-item">
+                            <span class="super blue"> {{advertisment.totalPopUp}}</span><br>
+                            <span>Lượt popup</span>
+                        </div>
+                        <div class="advertse-statistic-item">
+                            <span class="super secondary">{{advertisment.totalClick}}</span><br>
+                            <span>Click login</span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-grid class="calenda-grid" padding>
+                    <ion-row>
+                        <ion-col *ngFor="let day of statistic"><span class="calenda-small gray">{{day.day}}</span><span [ngClass]="{'primary':day.status == 0,'secondary':day.status == 1}" class="calenda-main">{{day.click}}</span></ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </div>
+</ion-content>
+<div class="wa-header">
+    <span class="wa-header-icon-left" (click)="onClickBack()"><ion-icon name="ios-arrow-round-back-outline"></ion-icon></span>
+    <span class="wa-header-title">{{accesspoint.mName}}</span>
+    <span class="wa-header-icon" (click)="onClickBack()"><i class="fa fa-check" aria-hidden="true"></i> </span>
+</div>

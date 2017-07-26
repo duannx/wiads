@@ -1,0 +1,22 @@
+page-wiads-dashboard {
+    canvas {
+        margin: map-get($WiadsSize, lineheight) auto;
+    }
+    .super {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .blue {
+        color: map-get($WiadsColors, blue);
+    }
+    .secondary {
+        color: map-get($WiadsColors, secondary);
+    }
+    .primary {
+        color: map-get($WiadsColors, primary);
+    }
+    .advertse-statistic-item {
+        text-align: center;
+        margin: 5px 0;
+    }
+}

@@ -1,0 +1,21 @@
+<ion-content no-bounce>
+    <div class="logo-block">
+        <img class="logo" src="assets/wiads/logo_login.png" alt="logo">
+    </div>
+    <div class="login-form">
+        <div class="login-input user-input">
+            <input type="text" [(ngModel)]="mInputs.username" placeholder="Tên đăng nhập" />
+        </div>
+        <div class="login-input password-input">
+            <input type="password" [(ngModel)]="mInputs.password" placeholder="Mật khẩu" />
+        </div>
+        <div class="bottom">
+            <button ion-button round (click)="onClickLogin()" class="button-login">Đăng nhập</button>
+            <p>Developed by AppInAsia</p>
+        </div>
+
+    </div>
+
+
+
+</ion-content>

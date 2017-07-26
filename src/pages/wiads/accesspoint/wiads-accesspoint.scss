@@ -1,0 +1,160 @@
+page-wiads-accesspoint {
+    #wiads-map {
+        width: 100%;
+        height: 100%;
+    }
+    $customToggleHeight: 2em;
+    .custom-toggle {
+        position: absolute;
+        right: 10px;
+        top: (map-get($WiadsSize, header) - 2 * 1.2 * map-get($WiadsSize, fontsize)) / 2;
+        height: $customToggleHeight;
+        border-radius: 20px;
+        padding: 2px;
+        background-color: #d94c00;
+        .icon,
+        i,
+        {
+            margin: auto;
+        }
+        .custom-toggle-button {
+            height: 100%;
+            padding: 0 10px;
+            display: flex;
+            border-radius: 20px;
+            background-color: transparent;
+            transition: all 1s;
+        }
+        span.active {
+            background-color: map-get($WiadsColors, primary)
+        }
+    }
+    .custom-toggle-left-button {
+        float: left;
+    }
+    .custom-toggle-right-button {
+        float: right;
+    }
+    .ap-list {
+        .label {
+            white-space: normal;
+            font-size: map-get($WiadsSize, fontsize);
+            padding: 0;
+            margin: 5px 0;
+            width: 100%;
+        }
+        .item-inner {
+            padding: 0 !important;
+        }
+        ion-col {
+            line-height: map-get($WiadsSize, fontsize)*1.1;
+            height: 2 * map-get($WiadsSize, fontsize) * 1.1;
+        }
+        ion-row {
+            height: 2 * map-get($WiadsSize, fontsize);
+        }
+        ion-item,
+        .input-wrapper,
+        .item-inner {
+            height: 40px;
+            min-height: 40px;
+            max-height: 40px;
+        }
+        // ion-item:first-child {
+        //     border-top: 0.55px solid #c8c7cc;
+        //     border-bottom: 0.55px solid #c8c7cc;
+        // }
+        // ion-item:last-child {
+        //     border-bottom: 0.55px solid #c8c7cc;
+        // }
+    }
+    .item {
+        padding: 0 !important;
+    }
+    ion-infinite-scroll {
+        background-color: #FFF;
+    }
+    .circle {
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        background-color: #123;
+    }
+    .color-1 {
+        background-color: map-get($WiadsColors, secondary);
+    }
+    .color-2 {
+        background-color: map-get($WiadsColors, red);
+    }
+    .color-3 {
+        background-color: map-get($WiadsColors, yellow);
+    }
+    #wa-map-1 {
+        width: 100%;
+        height: 450px;
+        height: calc(100% - #{ map-get($WiadsSize, header) + 4 * map-get($WiadsSize, input)});
+        display: block;
+        position: absolute;
+        top: 120px;
+        top: map-get($WiadsSize, header) + 4 * map-get($WiadsSize, input);
+        left: 0;
+        background-color: #74aae0;
+        z-index: map-get($WiadsZindex, map);
+    }
+    .wa-container {
+        width: 100%;
+        height: 450px;
+        height: calc(100% - #{ 4 * map-get($WiadsSize, input)});
+        display: block;
+        position: relative;
+    }
+    [overmap],
+    [overmap] * {
+        z-index: map-get($WiadsZindex, contentAboveMap);
+    }
+    [super-white],
+    [super-white] * {
+        background-color: #FFF;
+    }
+    .scrollable {
+        overflow-y: auto;
+    }
+    .bg-white {
+        background-color: white;
+    }
+    .wa-detail-pop-up {
+        position: fixed;
+        bottom: map-get($WiadsSize, tab)+ 7px;
+        width: 96%;
+        left: 2%;
+        padding: 10px 5px;
+        background-color: #FFF;
+        opacity: .9;
+        z-index: map-get($WiadsZindex, popup);
+        transition: all 1s;
+        &.wa-hide {
+            bottom: -100%;
+        }
+    }
+    [color-gray] {
+        color: gray;
+    }
+    .color-green {
+        color: map-get($WiadsColors, secondary)
+    }
+    .wa-title-bar {
+        position: relative;
+        margin-bottom: 5px;
+    }
+    .search-button {
+        padding: 5px 10px;
+        border-radius: 10px;
+        background-color: transparent;
+        border: solid 1px map-get($WiadsColors, secondary);
+        color: map-get($WiadsColors, secondary);
+        float: right;
+        margin: (map-get($WiadsSize, lineheight) *2 - map-get($WiadsSize, fontsize) - 10px)/2 10px;
+        line-height: map-get($WiadsSize, fontsize);
+        font-size: map-get($WiadsSize, fontsize);
+    }
+}

@@ -1,0 +1,64 @@
+<ion-content class="wa-ion-content">
+    <div class="wa-content">
+        <div class="wa-input-group">
+            <ion-row no-padding>
+                <ion-col col-6>
+                    <div class="wa-input" (click)="selectProvince()">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        <span class="text" nowrap>{{selectedProvince.name}}</span>
+                        <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                    </div>
+                </ion-col>
+                <ion-col col-6>
+                    <div class="wa-input" (click)="selectTime()">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <span nowrap>{{selectedBanwidth.name}}</span>
+                        <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </div>
+        <div class="wa-content-group">
+            <div class="wa-title-bar">
+                <span nowrap>Thống kê Accesspoint</span>
+            </div>
+            <div class="chart-container" style="width: 80%; margin: 0 auto" text-center>
+                <canvas id="acesspointChart"></canvas>
+            </div>
+        </div>
+
+        <div class="wa-content-group">
+            <div class="wa-title-bar">
+                <span nowrap>Thống kê Chiến dịch quảng cáo</span>
+            </div>
+            <ion-row>
+                <ion-col col-7>
+                    <div class="chart-container" text-center>
+                        <canvas id="advertismentChart"></canvas>
+                    </div>
+                </ion-col>
+                <ion-col col-5>
+                    <div padding></div>
+                    <div class="advertse-statistic-item">
+                        <span class="super blue">{{advertisment.totalCampaign}}</span><br>
+                        <span>Total campaign</span>
+                    </div>
+                    <div class="advertse-statistic-item">
+                        <span class="super secondary">{{advertisment.impression}}</span><br>
+                        <span>Impression</span>
+                    </div>
+                    <div class="advertse-statistic-item">
+                        <span class="super primary">{{advertisment.click}}</span><br>
+                        <span>Click</span>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </div>
+
+    </div>
+
+</ion-content>
+<div class="wa-header">
+    <span class="wa-header-title">Wiads</span>
+    <span class="wa-header-icon" (click)="gotoSearch()"><ion-icon name="search"></ion-icon> </span>
+</div>

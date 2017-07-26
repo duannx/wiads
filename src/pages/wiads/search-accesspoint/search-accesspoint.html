@@ -1,0 +1,88 @@
+<ion-content class="wa-ion-content">
+    <div class="wa-content">
+        <div class="wa-content-group" padding>
+            <div class="wa-title color-primary">
+                <span>Từ khóa</span>
+            </div>
+            <div class="wa-search-inputs">
+                <span class="wa-search-inputs-item" *ngFor="let province of provinces" (click)="selectInputProvince(province)" [class.active]="province.code == selectedProvince.code">#{{getLowerCase(province.code)}}</span>
+            </div>
+            <div class="wa-search-inputs">
+                <span class="wa-search-inputs-item" *ngFor="let mode of onlineMode" (click)="selectInputOnlineMode(mode)" [class.active]="mode.value == selectedOnlineMode.value">#{{getLowerCase(mode.name)}}</span>
+            </div>
+            <div class="wa-search-inputs">
+                <span class="wa-search-inputs-item" *ngFor="let time of times" (click)="selectInputTime(time)" [class.active]="time.value == selectedTime.value">#{{getLowerCase(time.name)}}</span>
+            </div>
+            <div class="divider"></div>
+        </div>
+        <div class="wa-content-group" *ngIf="isShowHistory" padding>
+            <div class="wa-title color-primary">
+                <span>Lịch sử tìm kiếm</span>
+            </div>
+            <div class="history-list">
+                <div class="history-item">
+                    <button class="button-search">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                    <span class="keyword">High cafe</span>
+                    <span class="wa-search-inputs-item">#online</span>
+                    <span class="wa-search-inputs-item">#danang</span>
+                    <button class="button-delete"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+                <div class="history-item">
+                    <button class="button-search">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                    <span class="keyword">High cafe</span>
+                    <span class="wa-search-inputs-item">#online</span>
+                    <span class="wa-search-inputs-item">#danang</span>
+                    <button class="button-delete"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+                <div class="history-item">
+                    <button class="button-search">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                    <span class="keyword">High cafe</span>
+                    <span class="wa-search-inputs-item">#online</span>
+                    <span class="wa-search-inputs-item">#danang</span>
+                    <button class="button-delete"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div class="divider" style="margin-top:10px;"></div>
+        </div>
+        <div *ngIf="isShowLoading" padding style="text-align: center; font-size: 1.5em">
+            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        </div>
+        <div class="wa-content-group" *ngIf="!isShowHistory" padding>
+            <div class="wa-title color-primary">
+                <span>Kết quả</span>
+            </div>
+            <div class="search-result-list">
+                <div class="search-result-item" (click)="goToDetail(accesspoint)" *ngFor="let accesspoint of accesspoints">
+                    <div class="marker-icon">
+                        <img src="assets/wiads/marker_state_1.png" alt="marker-icon">
+                    </div>
+                    <div class="search-result-item-content">
+                        <span class="ap-name">{{accesspoint.mName || accesspoint.mSSID || "Không tên"}}</span>
+                        <span class="ap-address">{{accesspoint.mAddress || "Không có địa chỉ"}}</span>
+                    </div>
+                </div>
+            </div>
+            <ion-infinite-scroll *ngIf="accesspoints.length > 0" (ionInfinite)="doInfinite($event)" overmap>
+                <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+            <div *ngIf="accesspoints.length == 0 && !isShowLoading" padding>
+                Không có kết quả nào
+            </div>
+            <div padding></div>
+        </div>
+    </div>
+</ion-content>
+<div class="wa-header">
+    <span class="wa-header-icon-left" (click)="onClickBack()"><ion-icon name="ios-arrow-round-back-outline"></ion-icon></span>
+    <div class="divSearchbar" style="float: left">
+        <ion-searchbar primary color="primary" #mSearchBar id="a-searchbar" [(ngModel)]="mSearchInput" [showCancelButton]="false" [cancelButtonText]="'Hủy'" (search)="onSearch($event)" (ionInput)="onSearchInput(1)" (ionCancel)="onSearchCancel()">
+        </ion-searchbar>
+    </div>
+
+</div>

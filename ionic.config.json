@@ -1,5 +1,9 @@
 {
-  "name": "Wiads",
-  "app_id": "",
-  "type": "ionic-angular"
+    "name": "AiaStore",
+    "app_id": "",
+    "type": "ionic-angular",
+    "proxies": [{
+        "path": "/api",
+        "proxyUrl": "http://api.wiads.vn/api"
+    }]
 }

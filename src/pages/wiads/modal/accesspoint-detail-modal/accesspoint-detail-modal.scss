@@ -1,0 +1,61 @@
+page-accesspoint-detail-modal {
+    .wa-content-group {
+        margin: 10px 0;
+    }
+    canvas {
+        margin: map-get($WiadsSize, lineheight) auto;
+    }
+    .super {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .gray {
+        color: gray;
+    }
+    .blue {
+        color: map-get($WiadsColors, blue);
+    }
+    .secondary {
+        color: map-get($WiadsColors, secondary);
+    }
+    .primary {
+        color: map-get($WiadsColors, primary);
+    }
+    .advertse-statistic-item {
+        text-align: center;
+        margin: 5px 0;
+    }
+    [flex-center] {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .calenda-grid {
+        $colWidth: 12.5%;
+        .col {
+            border: solid 1px gray;
+            margin-left: -1px;
+            margin-top: -1px;
+            padding-top: 0;
+            padding-bottom: 0;
+            -webkit-box-flex: 0;
+            -webkit-flex: 0 0 $colWidth;
+            -ms-flex: 0 0 $colWidth;
+            flex: 0 0 $colWidth;
+            width: $colWidth;
+            max-width: $colWidth;
+            span {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+        .calenda-small {
+            font-size: .9em;
+        }
+        .calenda-main {
+            font-size: 1.2em;
+        }
+    }
+}
