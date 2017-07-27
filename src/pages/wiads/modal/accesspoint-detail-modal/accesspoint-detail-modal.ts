@@ -118,7 +118,7 @@ export class AccesspointDetailModalPage {
           var ctx = chart.chart.ctx;
 
           ctx.restore();
-          ctx.font = "normal 1.2em sans-serif";
+          ctx.font = "normal 1em sans-serif";
           ctx.textBaseline = "middle";
 
           let text = "Click/Popup";
@@ -126,10 +126,10 @@ export class AccesspointDetailModalPage {
           let textY = height / 2 - 15;
           ctx.fillText(text, textX, textY);
 
-          ctx.font = "bold 2em sans-serif";
+          ctx.font = "bold 1.8em sans-serif";
           text = ctr + "%";
           textX = Math.round((width - ctx.measureText(text).width) / 2);
-          textY = height / 2 + 10;
+          textY = height / 2 + 15;
           ctx.fillText(text, textX, textY);
           ctx.save();
         }

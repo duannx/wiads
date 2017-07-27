@@ -9,6 +9,7 @@ import { AppController } from '../providers/app-controller';
 })
 export class MyApp {
   rootPage: any = "WiadsLoginPage";
+  // rootPage: any = "WiadsLoadingPage";
   constructor(private menuController: MenuController, public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
       splashScreen.hide();

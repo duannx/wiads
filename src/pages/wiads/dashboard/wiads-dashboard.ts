@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController } from 'ionic-angular';
 import { AccesspointBandwidth } from '../../../providers/wiads/classes/bandwidth'
 import { WiadsModule } from '../../../providers/wiads/wiads';
+import { Utils } from '../../../providers/app-utils';
 import Chart from 'chart.js'
 @IonicPage()
 @Component({
@@ -111,10 +112,10 @@ export class WiadsDashboardPage {
           let textY = height / 2 - 40;
           ctx.fillText(text, textX, textY);
 
-          ctx.font = "bold 2.2em sans-serif";
-          text = this.totalAP + "";
+          ctx.font = "bold 2em sans-serif";
+          text = Utils.formatNumber(this.totalAP, ".");
           textX = Math.round((width - ctx.measureText(text).width) / 2);
-          textY = height / 2 - 5;
+          textY = height / 2 - 10;
 
           ctx.fillText(text, textX, textY);
           ctx.save();
@@ -159,7 +160,7 @@ export class WiadsDashboardPage {
           var ctx = chart.chart.ctx;
 
           ctx.restore();
-          ctx.font = "normal 1.2em sans-serif";
+          ctx.font = "normal 1em sans-serif";
           ctx.textBaseline = "middle";
 
           let text = "CTR";
@@ -167,10 +168,10 @@ export class WiadsDashboardPage {
           let textY = height / 2 - 30;
           ctx.fillText(text, textX, textY);
 
-          ctx.font = "bold 2em sans-serif";
+          ctx.font = "bold 1.8em sans-serif";
           text = ctr + "%";
           textX = Math.round((width - ctx.measureText(text).width) / 2);
-          textY = height / 2;
+          textY = height / 2 - 5;
           ctx.fillText(text, textX, textY);
           ctx.save();
         }
@@ -243,5 +244,4 @@ export class WiadsDashboardPage {
   gotoSearch() {
     this.navCtrl.push("SearchAccesspointPage");
   }
-
 }

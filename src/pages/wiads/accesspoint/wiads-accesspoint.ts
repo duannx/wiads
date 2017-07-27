@@ -232,10 +232,7 @@ export class WiadsAccesspointPage {
           compass: false,
           myLocationButton: false,
           indoorPicker: false,
-<<<<<<< HEAD
           mapToolbar: false
-=======
->>>>>>> 82fcbfd19e3ecaa96e519d9f52701f4ec62856a3
           // zoom: false
         },
         gestures: {

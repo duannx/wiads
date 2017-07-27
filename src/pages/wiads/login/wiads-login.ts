@@ -26,13 +26,12 @@ export class WiadsLoginPage {
     private mStatusBar: StatusBar,
     private platform: Platform
   ) {
-    this.platform.ready().then(()=>{
+    this.platform.ready().then(() => {
       this.onPlatformReady();
     })
   }
 
   ionViewDidEnter() {
-    
     this.doCheckAccessToken();
     //  this.onLoggedIn();
   }
@@ -67,7 +66,7 @@ export class WiadsLoginPage {
   }
   onPlatformReady() {
     this.mStatusBar.backgroundColorByHexString("#d94d00");
-    this.mStatusBar.overlaysWebView(false); 
+    this.mStatusBar.overlaysWebView(false);
   }
   private isInvalidInputs() {
     return this.mInputs.username.length == 0 || this.mInputs.password.length == 0;
@@ -81,11 +80,15 @@ export class WiadsLoginPage {
     this.showLoading();
     this.mWiadsModule.getHttpService().requestLogin(this.mInputs.username, this.mInputs.password).then(
       data => {
+        console.log("Load success", data);
         this.closeLoading();
         this.onResponseLogin(data);
+      }, error => {
+        console.log("Load fail", error);
       }
     ).catch(
       () => {
+        console.log("Load fail");
         this.doShowToast("Có lỗi xảy ra, vui lòng thử lại", 2000, "top");
         this.closeLoading();
       });

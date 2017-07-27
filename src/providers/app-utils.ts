@@ -44,6 +44,17 @@ export class Utils {
     if (isNegative) { formattedNumber = '-' + formattedNumber }
     return formattedNumber;
   }
+  public static formatNumber(num: number, splitChar: string) {
+    let arr = [];
+    num = Math.round(num);
+    let numStr = num.toString();
+    arr = numStr.split('');
+    let length = arr.length; 
+    for (let i = 1; i <= length; i++) {
+      if (i % 3 == 0 && i < length) arr.splice(length - i, 0, splitChar);
+    }
+    return arr.join('');
+  }
 
   public static bodauTiengViet(str: string): string {
     str = str.toLowerCase();
@@ -99,7 +110,7 @@ export class Utils {
     return value * Math.PI / 180;
   }
 
-  public static radianToDegree(value){
+  public static radianToDegree(value) {
     return value * 180 / Math.PI;
   }
 }
