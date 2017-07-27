@@ -815,6 +815,7 @@ $busino-content-height: calc(100vh - 56px - 72px);
     padding: 0 5px;
     margin: 0 3px;
     white-space: nowrap;
+    display: table;
     &.active {
         background-color: #f0f8e8;
         color: map-get($WiadsColors, secondary);

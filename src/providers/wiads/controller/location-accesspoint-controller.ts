@@ -22,6 +22,8 @@ export class LocationBaseAccesspointController extends AccesspointController {
 
     private mRequestStep: number = 100;
 
+    private mMaxPage: number = 4;
+
     private mObjectPool: AccesspointPool;
 
     mRequest = {
@@ -66,7 +68,7 @@ export class LocationBaseAccesspointController extends AccesspointController {
 
     doCheckRequestData() {
         if (!this.mHttpService) return;
-        if (this.mRequest.page <= this.mRequest.pages) {
+        if (this.mRequest.page <= this.mRequest.pages && this.mRequest.page <= this.mMaxPage) {
             this.mRequestState = RequestState.REQUESTING;
             this.mHttpService.requestAccesspointLocation(this.mRequest.lat, this.mRequest.lng, this.mRequest.page, this.mRequest.limit, this.mRequest.radius).then(
                 data => {
@@ -77,7 +79,6 @@ export class LocationBaseAccesspointController extends AccesspointController {
                     this.mRequestState = RequestState.READY;
                 }
             );
-
         } else {
             this.mRunning = false;
         }
@@ -113,7 +114,7 @@ export class LocationBaseAccesspointController extends AccesspointController {
     setCurrentMapLocation(lat: number, lng: number) {
         let needUpdate = true;
         if (this.mCurrentMapLocation.isValid()) {
-            if (this.mCurrentMapLocation.getDistanceInKm(lat, lng) < 1) {
+            if (this.mCurrentMapLocation.getDistanceInKm(lat, lng) < 2) {
                 needUpdate = false;
             }
         }

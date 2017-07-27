@@ -26,12 +26,13 @@ export class WiadsLoginPage {
     private mStatusBar: StatusBar,
     private platform: Platform
   ) {
-    this.platform.ready().then(() => {
+    this.platform.ready().then(()=>{
       this.onPlatformReady();
     })
   }
 
   ionViewDidEnter() {
+    
     this.doCheckAccessToken();
     //  this.onLoggedIn();
   }
@@ -66,7 +67,7 @@ export class WiadsLoginPage {
   }
   onPlatformReady() {
     this.mStatusBar.backgroundColorByHexString("#d94d00");
-    this.mStatusBar.overlaysWebView(false);
+    this.mStatusBar.overlaysWebView(false); 
   }
   private isInvalidInputs() {
     return this.mInputs.username.length == 0 || this.mInputs.password.length == 0;

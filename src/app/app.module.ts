@@ -57,6 +57,7 @@ import { WiadsTabsPage } from '../pages/wiads/tabs/wiads-tabs';
     Keyboard,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     HttpService,
+    DeviceInfoProvider,
     WiadsModule
   ]
 })

@@ -1,121 +1,108 @@
 <ion-content class="wa-ion-content" no-bounce>
-    <div class="wa-content a1-relative">
-        <div class="a1-container-absolute" id="wa-map-container">
-            <div class="a1-container">
-                <div class="wa-header-height"></div>
-                <div class="wa-input-group">
-                    <ion-row no-padding>
-                        <ion-col col-6>
-                            <div class="wa-input" (click)="selectProvince()">
-                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                <span class="text" nowrap>{{selectedProvince.name}}</span>
-                                <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
-                            </div>
-                        </ion-col>
-                        <ion-col col-6>
-                            <div class="wa-input" (click)="selectTime()">
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                <span nowrap>{{selectedBanwidth.name}}</span>
-                                <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
-                            </div>
-                        </ion-col>
-                    </ion-row>
-                </div>
-                <div id="wa-map-1"></div>
-            </div>
-        </div>
-        <div class="a1-container-absolute a1-z-10 bg-white" id="wa-list-container">
-            <div class="a1-container">
-                <div class="wa-header-height"></div>
-                <div class="wa-input-group">
-                    <ion-row no-padding>
-                        <ion-col col-6>
-                            <div class="wa-input" (click)="selectProvince()">
-                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                <span class="text" nowrap>{{selectedProvince.name}}</span>
-                                <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
-                            </div>
-                        </ion-col>
-                        <ion-col col-6>
-                            <div class="wa-input" (click)="selectTime()">
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                <span nowrap>{{selectedBanwidth.name}}</span>
-                                <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
-                            </div>
-                        </ion-col>
-                    </ion-row>
-                </div>
+    <div id="wiads-map"></div>
 
 
-                <div class="wa-title-bar" *ngIf="modeToggle" overmap>
-                    <span nowrap>Danh sách Accesspoint</span>
-                    <span class="search-button" (click)="gotoSearch()">Tìm kiếm</span>
-                </div>
-                <ion-row style="background-color: #FFF; min-height: 40px; border-bottom: 1px solid gray" no-padding *ngIf="modeToggle" overmap super-white>
-                    <ion-col flex no-padding col-1><span text-center nowrap style="margin: auto">STT</span></ion-col>
-                    <ion-col flex no-padding col-3> <span text-center style="margin: auto"> Tên quán</span> </ion-col>
-                    <ion-col flex no-padding col-3><span text-center style="margin: auto"> Địa chỉ</span></ion-col>
-                    <ion-col flex no-padding col-3><span text-center style="margin: auto">Lần online cuối</span> </ion-col>
-                    <ion-col flex no-padding col-2> <span text-center style="margin: auto">Trạng thái</span> </ion-col>
-                </ion-row>
-                <ion-list id="wa-aplist-1" class="ap-list" [virtualScroll]="accesspoints" [approxItemHeight]="'40px'" overmap>
-                    <!-- <ion-item [hidden]="accesspoint.mName == null || accesspoint.mName == ''" *virtualItem="let accesspoint;let i = index" (click)="goToDetail(accesspoint)"> -->
-                    <ion-item *virtualItem="let accesspoint;let i = index" (click)="goToDetail(accesspoint)">
-                        <ion-row no-padding>
-                            <ion-col flex no-padding col-1><span text-center nowrap style="margin: auto; min-width: 8.33333%">{{i}}</span></ion-col>
-                            <ion-col flex no-padding col-3> <span text-center style="margin: auto;min-width: 25%"> {{accesspoint.mName || "Không có"}}</span> </ion-col>
-                            <ion-col flex no-padding col-3><span text-center style="margin: auto;min-width: 25%"> {{accesspoint.mAddress || "Không có"}}</span></ion-col>
-                            <ion-col flex no-padding col-3><span text-center style="margin: auto;min-width: 25%">{{accesspoint.mLastTimeOnline || "Không có"}}</span> </ion-col>
-                            <ion-col flex no-padding col-2> <span text-center style="margin: auto;min-width: 16%" class="circle color-{{accesspoint.mState}}"></span> </ion-col>
-                        </ion-row>
-
-                    </ion-item>
-                </ion-list>
-                <ion-infinite-scroll *ngIf="modeToggle" (ionInfinite)="doInfinite($event)" overmap>
-                    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-                </ion-infinite-scroll>
-            </div>
-        </div>
-        <div class="wa-detail-pop-up wa-hide" id="wa-ap-detail">
+    <div class="a1-z-10 bg-white" *ngIf="this.mViewType==this.VIEW_LIST">
+        <div class="wa-header-height"></div>
+        <div class="wa-input-group" style="padding:10px !important">
             <ion-row no-padding>
                 <ion-col col-6>
-                    <div class="wa-input">
+                    <div class="wa-input" (click)="selectProvince()">
                         <i class="fa fa-map-marker" aria-hidden="true"></i>
                         <span class="text" nowrap>{{selectedProvince.name}}</span>
+                        <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
                     </div>
                 </ion-col>
                 <ion-col col-6>
-                    <div class="wa-input">
+                    <div class="wa-input" (click)="selectTime()">
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                         <span nowrap>{{selectedBanwidth.name}}</span>
+                        <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
                     </div>
                 </ion-col>
             </ion-row>
-            <ion-row>
-                <ion-col col-3><span color-gray nowrap>Tên quán: </span></ion-col>
-                <ion-col col-9><span nowrap>{{selectedAccesspoint.mName}} </span></ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col col-3><span color-gray nowrap>Địa chỉ: </span></ion-col>
-                <ion-col col-9><span nowrap>{{selectedAccesspoint.mAddress}}</span></ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col col-3><span color-gray nowrap>Trạng thái: </span></ion-col>
-                <ion-col col-9>{{selectedAccesspoint.mLastTimeOnline}}</ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col col-8></ion-col>
-                <ion-col col-4>
-                    <span nowrap class="color-green" (click)="goToDetail(selectedAccesspoint)">XEM CHI TIẾT</span>
-                </ion-col>
-            </ion-row>
         </div>
+
+        <div class="wa-title-bar">
+            <span nowrap>Danh sách Accesspoint</span>
+            <span class="search-button" (click)="gotoSearch()">Tìm kiếm</span>
+        </div>
+        <ion-row style="background-color: #FFF; min-height: 40px; border-bottom: 1px solid gray" no-padding *ngIf="modeToggle" overmap super-white>
+            <ion-col flex no-padding col-1><span text-center nowrap style="margin: auto">STT</span></ion-col>
+            <ion-col flex no-padding col-3> <span text-center style="margin: auto"> Tên quán</span> </ion-col>
+            <ion-col flex no-padding col-3><span text-center style="margin: auto"> Địa chỉ</span></ion-col>
+            <ion-col flex no-padding col-3><span text-center style="margin: auto">Lần online cuối</span> </ion-col>
+            <ion-col flex no-padding col-2> <span text-center style="margin: auto">Trạng thái</span> </ion-col>
+        </ion-row>
+        <ion-list id="wa-aplist-1" class="ap-list">
+            <ion-item *ngFor="let accesspoint of accesspoints;let i = index" (click)="goToDetail(accesspoint)">
+                <ion-row no-padding>
+                    <ion-col flex no-padding col-1><span text-center nowrap style="margin: auto">{{i+1}}</span></ion-col>
+                    <ion-col flex no-padding col-3> <span text-center style="margin: auto"> {{accesspoint.mName || "Không có"}}</span> </ion-col>
+                    <ion-col flex no-padding col-3><span text-center style="margin: auto"> {{accesspoint.mAddress || "Không có"}}</span></ion-col>
+                    <ion-col flex no-padding col-3><span text-center style="margin: auto">{{accesspoint.mLastTimeOnline || "Không có"}}</span> </ion-col>
+                    <ion-col flex no-padding col-2> <span text-center style="margin: auto" class="circle color-{{accesspoint.mState}}"></span> </ion-col>
+                </ion-row>
+            </ion-item>
+        </ion-list>
+
+        <div padding text-center *ngIf="mDoLoadMore">
+            <ion-spinner name="ios-small"></ion-spinner>
+        </div>
+        <div style="height:20px"></div>
     </div>
 </ion-content>
+
+<div class="a1-container-top a1-z-8" *ngIf="isViewMap()">
+    <div class="wa-header-height"></div>
+    <div class="wa-input-group" style="padding:10px !important">
+        <ion-row no-padding>
+            <ion-col col-6>
+                <div class="wa-input" (tap)="selectProvince()">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <span class="text" nowrap>{{selectedProvince.name}}</span>
+                    <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                </div>
+            </ion-col>
+            <ion-col col-6>
+                <div class="wa-input" (tap)="selectTime()">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <span nowrap>{{selectedBanwidth.name}}</span>
+                    <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                </div>
+            </ion-col>
+        </ion-row>
+    </div>
+</div>
+
+<div class="a1-container-bottom a1-z-8" padding *ngIf="isViewMap()">
+    <div class="wa-detail-pop-up wa-hide" [class.wa-hide]="!mShowPopupDetail">
+        <ion-row>
+            <ion-col col-3><span color-gray nowrap>Tên quán: </span></ion-col>
+            <ion-col col-9><span nowrap>{{selectedAccesspoint.mName}} </span></ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-3><span color-gray nowrap>Địa chỉ: </span></ion-col>
+            <ion-col col-9><span nowrap>{{selectedAccesspoint.mAddress}}</span></ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-3><span color-gray nowrap>Trạng thái: </span></ion-col>
+            <ion-col col-9>{{selectedAccesspoint.mLastTimeOnline}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-8></ion-col>
+            <ion-col col-4>
+                <span nowrap class="color-green" (tap)="goToDetail(selectedAccesspoint)">XEM CHI TIẾT</span>
+            </ion-col>
+        </ion-row>
+    </div>
+    <div class="wa-header-height"></div>
+</div>
+
 <div class="wa-header">
-    <span class="wa-header-title">Accesspoint</span>
-    <div class="custom-toggle">
-        <span class="custom-toggle-left-button custom-toggle-button active"> <i class="fa fa-list-ul" aria-hidden="true"></i></span>
-        <span class="custom-toggle-right-button custom-toggle-button"> <i class="fa fa-map-o" aria-hidden="true"></i></span>
+    <span class="wa-header-title" (tap)="onClickHeader()"> Accesspoint </span>
+    <div class="custom-toggle" (tap)="onClickToggleView()">
+        <span class="custom-toggle-left-button custom-toggle-button" [class.active]="isViewList()"> <i class="fa fa-list-ul" aria-hidden="true"></i></span>
+        <span class="custom-toggle-right-button custom-toggle-button" [class.active]="isViewMap()"> <i class="fa fa-map-o" aria-hidden="true"></i></span>
     </div>
 </div>

@@ -8,10 +8,12 @@ import { AppController } from '../providers/app-controller';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = "WiadsLoginPage";  
-  constructor(public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  rootPage: any = "WiadsLoginPage";
+  constructor(private menuController: MenuController, public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
-      splashScreen.hide(); 
+      splashScreen.hide();
+      AppController.getInstance().setPlatform(platform);
     });
-  }  
+  }
+
 }

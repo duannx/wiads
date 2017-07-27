@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, AlertController, LoadingController, Loading, ModalController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, AlertController, LoadingController, Loading, ModalController, Content } from 'ionic-angular';
 import { WiadsModule } from '../../../providers/wiads/wiads';
 import { AccessPoint } from '../../../providers/wiads/classes/accesspoint';
 import { Province } from '../../../providers/wiads/classes/province';
@@ -8,15 +8,16 @@ import { AccesspointBandwidth } from '../../../providers/wiads/classes/bandwidth
 import {
   GoogleMaps,
   GoogleMap,
+  GoogleMapOptions,
   GoogleMapsEvent,
   LatLng,
   CameraPosition,
   MarkerOptions,
-  GoogleMapOptions,
   Geocoder,
   GeocoderRequest,
   Marker, HtmlInfoWindow
 } from '@ionic-native/google-maps';
+
 
 @IonicPage()
 @Component({
@@ -24,8 +25,14 @@ import {
   templateUrl: 'wiads-accesspoint.html',
 })
 export class WiadsAccesspointPage {
-  selectedAccesspoint: AccessPoint;
-  popup: HTMLElement;
+  @ViewChild(Content) content: Content;
+
+  VIEW_MAP: number = 1;
+  VIEW_LIST: number = 2;
+
+  mViewType: number = 2;
+  mShowPopupDetail: boolean = false;
+
   loading: Loading;
   isShowingLoading = false;
   map: GoogleMap;
@@ -38,7 +45,7 @@ export class WiadsAccesspointPage {
   selectedBanwidth: AccesspointBandwidth = new AccesspointBandwidth();
 
   accesspoints: Array<AccessPoint> = [];
-  modeToggle = true; //True = list; false = map
+  selectedAccesspoint: AccessPoint;
 
   mDoLoadMore: boolean = false;
   constructor(
@@ -54,66 +61,65 @@ export class WiadsAccesspointPage {
     this.selectedProvince = new Province();
     //Accesspoints change
     this.mWiadsModule.getListBaseAccesspoint().setOnChangeListener((items) => {
-      if (this.modeToggle && !this.mDoLoadMore) {
-        this.accesspoints = [];
-        for (let item of items) {
-          this.accesspoints.push(item);
-        }
-
-        if (this.loading) this.loading.dismiss();
-      }
+      this.onListAccesspointChange(items);
     });
 
     this.mWiadsModule.getLocationBaseAccesspoint().setOnChangeListener((items, additionItems) => {
-      if (!this.modeToggle) {
-        //Add marker
-        for (let item of additionItems) {
-          // let accesspoint = additionItems[i];
-          let accesspoint = new AccessPoint();
-          accesspoint.pair(item);
-          if (accesspoint.mLat && accesspoint.mLng) {
-            let latlng = new LatLng(accesspoint.mLat, accesspoint.mLng);
-            //Check marker exists
-            if (this.latLngMarker.findIndex(elm => {
-              return elm.equals(latlng);
-            }) == -1) {
-              // let infoWindow = new HtmlInfoWindow();
-              // let div = document.createElement('div');
-              // div.style.width = '100px';
-              // div.style.height = '100px';
-              // div.style.backgroundColor = '#333';
-              // let spanElm = document.createElement('span');
-              // spanElm.style.color = "#FFF";
-              // spanElm.innerText = "Hello. Its me";
-              // infoWindow.setContent(div);
-              // div.appendChild(spanElm);
-              //Add marker
-              this.map.addMarker({
-                title: accesspoint.mName,
-                snippet: accesspoint.mAddress,
-                position: latlng,
-              }).then(marker => {
-                marker = marker as Marker;
-                marker.prototype
-                this.latLngMarker.push(latlng);
-                marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe((event) => {
-                  console.log("MARKER_CLICK");
-
-                  // infoWindow.open(marker);
-
-                  this.selectedAccesspoint.mName = accesspoint.mName;
-                  this.selectedAccesspoint.mAddress = accesspoint.mAddress;
-                  this.selectedAccesspoint.mLastTimeOnline = accesspoint.mLastTimeOnline;
-                  if (this.popup) this.popup.classList.remove('wa-hide');
-                })
-              })
-            }
-          }
-        }
-        if (this.loading) this.loading.dismiss();
-      }
+      this.onLocationAccespointChange(items, additionItems);
     })
   }
+
+  onLocationAccespointChange(items, additionItems) {
+    console.log("onLocation Accesspoint change");
+
+    if (this.isViewMap()) {
+      for (let item of additionItems) {
+        let accesspoint = new AccessPoint();
+        accesspoint.pair(item);
+        if (accesspoint.mLat && accesspoint.mLng) {
+          let latlng = new LatLng(accesspoint.mLat, accesspoint.mLng);
+          if (this.latLngMarker.findIndex(elm => {
+            return elm.equals(latlng);
+          }) == -1) {
+            console.log("add marker " + accesspoint.mName);
+
+            this.map.addMarker({
+              title: accesspoint.mName,
+              snippet: accesspoint.mAddress,
+              position: latlng,
+            }).then(marker => {
+              this.latLngMarker.push(latlng);
+              marker.on("marker_click").subscribe((event) => {
+                this.selectedAccesspoint.mName = accesspoint.mName;
+                this.selectedAccesspoint.mAddress = accesspoint.mAddress;
+                this.selectedAccesspoint.mLastTimeOnline = accesspoint.mLastTimeOnline;
+                this.showAccesspointPopupDetail(true);
+              })
+            })
+          }
+        }
+      }
+      this.closeLoading();
+    }
+  }
+
+  onListAccesspointChange(items) {
+    if (this.isViewList() && !this.mDoLoadMore) {
+      this.accesspoints = [];
+      for (let item of items) {
+        this.accesspoints.push(item);
+      }
+      this.closeLoading();
+    }
+  }
+
+  isViewList() {
+    return this.mViewType == this.VIEW_LIST;
+  }
+  isViewMap() {
+    return this.mViewType == this.VIEW_MAP;
+  }
+
 
   doInfinite(infiniteScroll) {
     this.mDoLoadMore = true;
@@ -129,42 +135,97 @@ export class WiadsAccesspointPage {
 
   }
 
+  showLoading() {
+    if (this.loading) this.loading.dismiss();
+    this.loading = this.loadingCtrl.create({
+      content: "Vui lòng đợi",
+      duration: 3000,
+      dismissOnPageChange: true
+    })
+    this.loading.present();
+    this.loading.onDidDismiss(() => {
+      this.isShowingLoading = false;
+    })
+    this.isShowingLoading = true;
+  }
+
+  closeLoading() {
+    if (this.loading) this.loading.dismiss();
+  }
 
   ionViewDidEnter() {
     if (!this.isEntered) {
-      this.loading = this.loadingCtrl.create({
-        content: "Xin đợi",
-        duration: 5000,
-        dismissOnPageChange: true
-      })
-      this.loading.present();
-      this.loading.onDidDismiss(() => {
-        this.isShowingLoading = false;
-      })
-      this.isShowingLoading = true;
-      console.log("did enter this.modeToggle", this.modeToggle, this.provinces, this.accesspoints);
-      this.popup = document.getElementById('wa-ap-detail');
-      //Toggle change
-      let toggleButtons = document.getElementsByClassName('custom-toggle-button');
-      if (toggleButtons) {
-        for (let i = 0; i < toggleButtons.length; i++) {
-          toggleButtons[i].addEventListener('touchend', (event) => {
-            console.log("this.modeToggle", this.modeToggle);
-            toggleButtons[i].classList.toggle("active");
-            this.modeToggle = !this.modeToggle;
-            if (toggleButtons[i].nextElementSibling)
-              toggleButtons[i].nextElementSibling.classList.toggle("active");
-            if (toggleButtons[i].previousElementSibling)
-              toggleButtons[i].previousElementSibling.classList.toggle("active");
-            this.toggleView(!this.modeToggle);
-            if (!this.modeToggle) this.accesspoints = [];
-            if (this.modeToggle) if (this.popup) this.popup.classList.add('wa-hide');
-            this.onInputChange();
-          })
-        }
-      }
+      this.showLoading();
 
-      //Load map
+
+      this.content.ionScrollEnd.subscribe(() => {
+        this.onScrollEnd();
+      });
+
+      this.mWiadsModule.getProvinces().then((data) => {
+        this.onResponseProvince(data);
+        this.onInputChange();
+      }, error => {
+      });
+
+      this.mWiadsModule.getBandwidths().then((data) => {
+        this.onResponseBanwidth(data);
+      });
+    }
+    this.isEntered = true;
+  }
+
+  onScrollEnd() {
+    if (!this.isViewList()) return;
+    if (this.mDoLoadMore) return;
+    this.mDoLoadMore = true;
+    this.mWiadsModule.getListBaseAccesspoint().doLoadMore((items) => {
+      for (let item of items) {
+        let accesspoint = new AccessPoint();
+        accesspoint.pair(item);
+        this.accesspoints.push(item);
+      }
+      this.mDoLoadMore = false;
+    });
+  }
+
+  onClickHeader() {
+    this.content.scrollToTop();
+  }
+
+  onClickToggleView() {
+
+    if (this.isViewList()) {
+
+      this.createGoogleMap();
+
+      this.mViewType = this.VIEW_MAP;
+
+      if (this.map) this.map.setVisible(true);
+      setTimeout(() => {
+        if (this.isViewMap()) this.map.refreshLayout();
+      }, 1000);
+
+      this.content.getScrollElement().style.overflowY = "hidden";
+
+    } else if (this.isViewMap()) {
+      this.content.getScrollElement().style.overflowY = "auto";
+      this.mViewType = this.VIEW_LIST;
+
+      if (this.map) this.map.setVisible(false);
+    }
+
+    if (this.isViewList()) this.showAccesspointPopupDetail(false);
+
+    this.onInputChange();
+  }
+
+  createGoogleMap() {
+    if (this.map) return;
+
+    let element: HTMLElement = document.getElementById('wiads-map');
+    if (element) {
+
       let mapOptions: GoogleMapOptions = {
         mapType: 'MAP_TYPE_NORMAL',
         controls: {
@@ -172,6 +233,7 @@ export class WiadsAccesspointPage {
           myLocationButton: true,
           indoorPicker: false,
           mapToolbar: false
+          // zoom: false
         },
         gestures: {
           scroll: true,
@@ -179,37 +241,69 @@ export class WiadsAccesspointPage {
           zoom: true,
           rotate: false,
         },
-      }
-      let element: HTMLElement = document.getElementById('wa-map-1');
-      this.map = this.googleMaps.create(element);
-      this.map.setVisible(false);
+        styles: [
+          {
+            featureType: "transit.station.bus",
+            stylers: [
+              {
+                "visibility": "off"
+              }
+            ]
+          }
+        ],
+        camera: {
+          target: new LatLng(21.027764, 105.834160),
+          zoom: 10,
+          tilt: 0
+        },
+        preferences: {
+          zoom: {
+            minZoom: 10,
+            maxZoom: 20
+          },
+          building: false,
+        }
+      };
+
+      this.map = this.googleMaps.create(element, mapOptions);
+
       this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
-        this.map.setOptions(mapOptions);
-        this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe((camera) => {
-          console.log("MAP_CLICK");
-          if (this.popup) this.popup.classList.add('wa-hide');
-        });
-        this.map.on("map_drag_end").subscribe((camera) => {
-          if (this.popup) this.popup.classList.add('wa-hide');
-        });
-        this.map.on("camera_move_end").subscribe((camera) => {
-          this.mWiadsModule.getLocationBaseAccesspoint().setCurrentMapLocation(camera.target["lat"], camera.target["lng"]);
-        })
-      })
-
-      //Get provinces
-      this.mWiadsModule.getProvinces().then((data) => {
-        this.onResponseProvince(data);
-        //Get AP
-        this.onInputChange();
-      }, error => {
-      })
-
-      this.mWiadsModule.getBandwidths().then((data) => {
-        this.onResponseBanwidth(data);
+        this.onGoogleMapReady();
       })
     }
-    this.isEntered = true;
+  }
+
+  onGoogleMapReady() {
+
+    this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(() => {
+      this.showAccesspointPopupDetail(false);
+    });
+
+    this.map.on(GoogleMapsEvent.MAP_DRAG).subscribe((data) => {
+      this.showAccesspointPopupDetail(false);
+    });
+    this.map.on(GoogleMapsEvent.CAMERA_MOVE_END).subscribe((cameraPosition) => {
+      this.onMapChangeCenterPosition(cameraPosition.target);
+    });
+
+
+    this.map.getMyLocation().then((position) => {
+      let currentPosition: LatLng = position.latLng;
+      let cameraPosition: CameraPosition = {
+        target: currentPosition,
+        zoom: 15,
+        tilt: 0
+      };
+      this.map.moveCamera(cameraPosition);
+      this.mWiadsModule.getLocationBaseAccesspoint().setCurrentMapLocation(currentPosition.lat, currentPosition.lng);
+    });
+
+  }
+  onMapChangeCenterPosition(position) {
+    this.mWiadsModule.getLocationBaseAccesspoint().setCurrentMapLocation(position.lat, position.lng);
+  }
+  showAccesspointPopupDetail(show: boolean) {
+    this.mShowPopupDetail = show;
   }
 
   onResponseBanwidth(data) {
@@ -219,34 +313,7 @@ export class WiadsAccesspointPage {
     }
   }
 
-  onInputChange() {
-    if (!this.isShowingLoading) {
-      if (this.loading) this.loading.dismiss();
-      this.loading = this.loadingCtrl.create({
-        content: "Xin đợi",
-        duration: 5000,
-        dismissOnPageChange: true
-      })
-      this.loading.present();
-      this.loading.onDidDismiss(() => {
-        this.isShowingLoading = false;
-      })
-    }
-    //Get AP for list
-    if (this.modeToggle) {
-      if (this.map) this.map.setVisible(false)
-      this.mWiadsModule.getListBaseAccesspoint().setRequestProvince(this.selectedProvince.code);
-    } else {
-      //get AP for map
-      this.geocoder.geocode({ address: this.selectedProvince.name }).then(data => {
-        if (data[0].position) {
 
-          this.map.moveCamera({ target: new LatLng(data[0].position.lat, data[0].position.lng), zoom: 15 });
-          this.mWiadsModule.getLocationBaseAccesspoint().setCurrentMapLocation(data[0].position.lat, data[0].position.lng);
-        }
-      })
-    }
-  }
 
   onResponseProvince(data) {
     if (data) {
@@ -254,18 +321,8 @@ export class WiadsAccesspointPage {
       this.selectedProvince = this.provinces[0];
     }
   }
-  toggleView(mapVisible) {
-    let mapContainer = document.getElementById("wa-map-container");
-    let listContainer = document.getElementById("wa-list-container");
-
-    if (mapContainer) mapContainer.style.display = mapVisible ? "block" : "none";
-    if (listContainer) listContainer.style.display = mapVisible ? "none" : "block";
 
 
-    if (this.map) {
-      this.map.setVisible(mapVisible);
-    }
-  }
   selectProvince() {
     let alert = this.alertCtrl.create();
     alert.setTitle("Chọn tỉnh");
@@ -328,6 +385,7 @@ export class WiadsAccesspointPage {
     });
     alert.present();
   }
+
   goToDetail(accesspoint: AccessPoint) {
     let modal = this.modalCtrl.create(
       "AccesspointDetailModalPage",
@@ -337,5 +395,24 @@ export class WiadsAccesspointPage {
   }
   gotoSearch() {
     this.navCtrl.push("SearchAccesspointPage");
+  }
+
+  onInputChange() {
+    this.showAccesspointPopupDetail(false);
+    if (!this.isShowingLoading) {
+      this.showLoading();
+    }
+
+    this.accesspoints = [];
+    if (this.isViewList()) {
+      this.mWiadsModule.getListBaseAccesspoint().setRequestProvince(this.selectedProvince.code);
+    } else {
+      this.geocoder.geocode({ address: this.selectedProvince.name }).then(data => {
+        if (data[0].position) {
+          this.map.moveCamera({ target: new LatLng(data[0].position.lat, data[0].position.lng), zoom: 15 });
+          this.mWiadsModule.getLocationBaseAccesspoint().setCurrentMapLocation(data[0].position.lat, data[0].position.lng);
+        }
+      })
+    }
   }
 }
