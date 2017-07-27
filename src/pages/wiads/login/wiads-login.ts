@@ -4,6 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { WiadsModule } from '../../../providers/wiads/wiads';
 import { WiadsAccessToken } from '../../../providers/wiads/classes/access-token';
 import { Storage } from "@ionic/storage";
+import { AppLoop } from '../../../providers/app-loop';
+import { WiadsTabsPage } from '../tabs/wiads-tabs';
 
 @IonicPage()
 @Component({
@@ -32,8 +34,7 @@ export class WiadsLoginPage {
   }
 
   ionViewDidEnter() {
-    this.doCheckAccessToken();
-    //  this.onLoggedIn();
+    this.doCheckAccessToken(); 
   }
   doCheckAccessToken() {
     let data = this.mStorage.get("wiadsaccesstoken").then(
@@ -50,7 +51,7 @@ export class WiadsLoginPage {
   }
   onExistAccesstoken(data) {
     if (this.mWiadsModule.getHttpService().getAccesstoken().isValidTokenData(data)) {
-      console.log("token", data);
+      this.showLoading();
       this.mWiadsModule.getHttpService().getAccesstoken().onValidTokenData(data);
       this.onLoggedIn();
     } else {
@@ -81,7 +82,6 @@ export class WiadsLoginPage {
     this.mWiadsModule.getHttpService().requestLogin(this.mInputs.username, this.mInputs.password).then(
       data => {
         console.log("Load success", data);
-        this.closeLoading();
         this.onResponseLogin(data);
       }, error => {
         console.log("Load fail", error);
@@ -104,7 +104,15 @@ export class WiadsLoginPage {
     }
   }
   onLoggedIn() {
-    this.navCtrl.setRoot("WiadsLoadingPage");
+    AppLoop.getInstance().start();
+    AppLoop.getInstance().unScheduleUpdateAll();
+    AppLoop.getInstance().scheduleUpdate(this.mWiadsModule);
+    this.mWiadsModule.onLoading();
+    setTimeout(() => {
+      this.navCtrl.setRoot(WiadsTabsPage);
+      this.closeLoading();
+    }, 1000);
+
   }
 
   doShowToast(message: string, duration: number, position: string) {
