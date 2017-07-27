@@ -22,7 +22,10 @@ export class WiadsLoadingPage {
     AppLoop.getInstance().start();
     AppLoop.getInstance().unScheduleUpdateAll();
     AppLoop.getInstance().scheduleUpdate(this.mWiadsModule);
-    this.onLoaded();
+    this.mWiadsModule.onLoading();
+    setTimeout(()=>{
+      this.onLoaded();
+    },1000);
   }
 
   onLoaded() {

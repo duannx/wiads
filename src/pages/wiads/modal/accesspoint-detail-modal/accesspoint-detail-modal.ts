@@ -109,7 +109,7 @@ export class AccesspointDetailModalPage {
           display: false,
           position: 'bottom'
         },
-        cutoutPercentage: 70
+        cutoutPercentage: 60
       },
       plugins: {
         beforeDraw: (chart) => {
@@ -118,15 +118,15 @@ export class AccesspointDetailModalPage {
           var ctx = chart.chart.ctx;
 
           ctx.restore();
-          ctx.font = "normal 1.2em sans-serif";
+          ctx.font = "1em normal sans-serif";
           ctx.textBaseline = "middle";
 
           let text = "Click/Popup";
           let textX = Math.round((width - ctx.measureText(text).width) / 2);
-          let textY = height / 2 - 15;
+          let textY = height / 2 - 11;
           ctx.fillText(text, textX, textY);
 
-          ctx.font = "bold 2em sans-serif";
+          ctx.font = "1.5em bold sans-serif";
           text = ctr + "%";
           textX = Math.round((width - ctx.measureText(text).width) / 2);
           textY = height / 2 + 10;

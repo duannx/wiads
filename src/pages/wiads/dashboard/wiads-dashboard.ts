@@ -94,7 +94,7 @@ export class WiadsDashboardPage {
           display: true,
           position: 'bottom'
         },
-        cutoutPercentage: 70
+        cutoutPercentage: 60
       },
       plugins: {
         beforeDraw: (chart) => {
@@ -103,18 +103,18 @@ export class WiadsDashboardPage {
           var ctx = chart.chart.ctx;
 
           ctx.restore();
-          ctx.font = "normal 1.5em sans-serif";
+          ctx.font = "1em normal sans-serif";
           ctx.textBaseline = "middle";
 
           let text = "Tổng AP";
           let textX = Math.round((width - ctx.measureText(text).width) / 2);
-          let textY = height / 2 - 40;
+          let textY = height / 2 - 30;
           ctx.fillText(text, textX, textY);
 
-          ctx.font = "bold 2.2em sans-serif";
+          ctx.font = "1.2em bold sans-serif";
           text = this.totalAP + "";
           textX = Math.round((width - ctx.measureText(text).width) / 2);
-          textY = height / 2 - 5;
+          textY = height / 2 - 10;
 
           ctx.fillText(text, textX, textY);
           ctx.save();
@@ -150,7 +150,7 @@ export class WiadsDashboardPage {
           display: true,
           position: 'bottom'
         },
-        cutoutPercentage: 70
+        cutoutPercentage: 60
       },
       plugins: {
         beforeDraw: (chart) => {
@@ -159,18 +159,18 @@ export class WiadsDashboardPage {
           var ctx = chart.chart.ctx;
 
           ctx.restore();
-          ctx.font = "normal 1.2em sans-serif";
+          ctx.font = "1em normal sans-serif";
           ctx.textBaseline = "middle";
 
           let text = "CTR";
           let textX = Math.round((width - ctx.measureText(text).width) / 2);
-          let textY = height / 2 - 30;
+          let textY = height / 2 - 25;
           ctx.fillText(text, textX, textY);
 
-          ctx.font = "bold 2em sans-serif";
+          ctx.font = "1.2em bold sans-serif";
           text = ctr + "%";
           textX = Math.round((width - ctx.measureText(text).width) / 2);
-          textY = height / 2;
+          textY = height / 2 - 5;
           ctx.fillText(text, textX, textY);
           ctx.save();
         }
