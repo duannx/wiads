@@ -18,6 +18,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 
 
 import { HttpService } from '../providers/http-service';
+import { BusinoModule } from '../providers/busino/busino';
 import { WiadsModule } from '../providers/wiads/wiads';
 import { DeviceInfoProvider } from '../providers/device-info/device-info';
 import { WiadsTabsPage } from '../pages/wiads/tabs/wiads-tabs';

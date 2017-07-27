@@ -44,7 +44,6 @@ page-wiads-accesspoint {
             font-size: map-get($WiadsSize, fontsize);
             padding: 0;
             margin: 5px 0;
-            width: 100%;
         }
         .item-inner {
             padding: 0 !important;
@@ -73,9 +72,6 @@ page-wiads-accesspoint {
     }
     .item {
         padding: 0 !important;
-    }
-    ion-infinite-scroll {
-        background-color: #FFF;
     }
     .circle {
         border-radius: 50%;

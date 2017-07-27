@@ -15,7 +15,7 @@ import {
   MarkerOptions,
   Geocoder,
   GeocoderRequest,
-  Marker, HtmlInfoWindow
+  Marker
 } from '@ionic-native/google-maps';
 
 
@@ -230,9 +230,12 @@ export class WiadsAccesspointPage {
         mapType: 'MAP_TYPE_NORMAL',
         controls: {
           compass: false,
-          myLocationButton: true,
+          myLocationButton: false,
           indoorPicker: false,
+<<<<<<< HEAD
           mapToolbar: false
+=======
+>>>>>>> 82fcbfd19e3ecaa96e519d9f52701f4ec62856a3
           // zoom: false
         },
         gestures: {
@@ -278,10 +281,7 @@ export class WiadsAccesspointPage {
     this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(() => {
       this.showAccesspointPopupDetail(false);
     });
-
-    this.map.on(GoogleMapsEvent.MAP_DRAG).subscribe((data) => {
-      this.showAccesspointPopupDetail(false);
-    });
+ 
     this.map.on(GoogleMapsEvent.CAMERA_MOVE_END).subscribe((cameraPosition) => {
       this.onMapChangeCenterPosition(cameraPosition.target);
     });
