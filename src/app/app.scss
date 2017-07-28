@@ -700,12 +700,16 @@ $busino-content-height: calc(100vh - 56px - 72px);
     left: 0;
     z-index: map-get($WiadsZindex, header);
     font-size: 1.2em;
+    padding: 0 map-get($WiadsSize, header);
 }
 
 .wa-header-icon {
     position: absolute;
     padding: 0 14px;
     right: 0;
+    top: 0;
+    height: map-get($WiadsSize, header);
+    z-index: 11;
 }
 
 .wa-header-icon-left {
@@ -744,11 +748,15 @@ $busino-content-height: calc(100vh - 56px - 72px);
 }
 
 .wa-input-group {
-    padding: map-get($WiadsSize, lineheight);
+    padding: map-get($WiadsSize, lineheight) * 3 / 4;
     .col {
         padding: 0 5px;
     }
     background-color: #FFF;
+}
+
+.wa-input-group .wa-input {
+    padding: 0;
 }
 
 .wa-input {
@@ -762,6 +770,11 @@ $busino-content-height: calc(100vh - 56px - 72px);
     display: flex;
     position: relative;
     overflow: hidden;
+    &.multiline {
+        line-height: map-get($WiadsSize, lineheight);
+        padding: map-get($WiadsSize, lineheight)/2 10px;
+        height: map-get($WiadsSize, lineheight) * 3;
+    }
     i {
         margin: 0 5px;
         line-height: map-get($WiadsSize, lineheight) * 2;
@@ -781,6 +794,20 @@ $busino-content-height: calc(100vh - 56px - 72px);
         height: 100%;
         border-radius: 5px;
         background-color: #FFF;
+    }
+    .button-right {
+        position: absolute;
+        right: 0;
+        padding: 0px 30px;
+        background-color: #90e516;
+        display: block;
+        height: 100%;
+        border-radius: 5px;
+        color: #FFF;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 

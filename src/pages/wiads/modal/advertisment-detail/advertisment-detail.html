@@ -1,0 +1,141 @@
+<ion-content class="wa-ion-content">
+    <div class="wa-content">
+        <div class="wa-segment">
+            <ion-segment [(ngModel)]="tab">
+                <ion-segment-button value="information">
+                    Thông tin
+                </ion-segment-button>
+                <ion-segment-button value="setting">
+                    Cài đặt
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+        <div class="wa-content-group" [ngSwitch]="tab">
+            <ion-grid *ngSwitchCase="'information'">
+                <ion-row>
+                    <ion-col col-12>Tên chiến dịch</ion-col>
+                    <ion-col col-12><input class="wa-input" placeholder="Tên chiến dịch" [(ngModel)]="advertisment.campain" type="text"></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>Tên quảng cáo</ion-col>
+                    <ion-col col-12><input class="wa-input" placeholder="Tên quảng cáo" [(ngModel)]="advertisment.name" type="text"></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>Mô tả chí tiết thông tin quảng cáo</ion-col>
+                    <ion-col col-12><textarea class="wa-input multiline" placeholder="Mô tả chi tiết thông tin quảng cáo" [(ngModel)]="advertisment.description" type="text"></textarea></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Khách hàng</span>
+                    </ion-col>
+                    <ion-col>
+                        <div class="wa-input" (click)="selectCustomer()">
+                            <span class="text" nowrap> {{advertisment.customer || "Wiads"}}</span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Trạng thái</span>
+                    </ion-col>
+                    <ion-col>
+                        <div class="wa-input" (click)="selectStatus()">
+                            <span class="text" nowrap>{{advertisment.status || "Kích hoạt"}} </span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Ngày bắt đầu quảng cáo</span>
+                    </ion-col>
+                    <ion-col>
+                        <input class="wa-input" [(ngModel)]="advertisment.startDate" placeholder="Ngày bắt đầu quảng cáo" type="text">
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Ngày kết thúc quảng cáo</span>
+                    </ion-col>
+                    <ion-col>
+                        <input class="wa-input" type="text" [(ngModel)]="advertisment.endDate" placeholder="Ngày kết thúc">
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-grid *ngSwitchCase="'setting'">
+                <ion-row>
+                    <ion-col col-12>Vị trí quảng cáo</ion-col>
+                    <ion-col col-12>
+                        <div class="wa-input" (click)="selectPosition()">
+                            <span class="text" nowrap> {{advertisment.position || "Toàn màn hình"}}</span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>Hình ảnh</ion-col>
+                    <ion-col col-12>
+                        <div class="wa-input" (click)="selectImage()">
+                            <span class="text" nowrap> {{advertisment.imgae ||"Chưa chọn file nào"}}</span>
+                            <span class="button-right ">Chọn file</span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>Hình ảnh login thành công</ion-col>
+                    <ion-col col-12>
+                        <div class="wa-input" (click)="selectLoginImage()">
+                            <span class="text" nowrap> {{advertisment.loginImgae ||"Chưa chọn file nào"}} </span>
+                            <span class="button-right ">Chọn file</span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>URL login</span>
+                    </ion-col>
+                    <ion-col>
+                        <input class="wa-input" type="text" placeholder="URL login" [(ngModel)]="advertisment.loginUrl">
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>URL login thành công</span>
+                    </ion-col>
+                    <ion-col>
+                        <input class="wa-input" placeholder="URL login thành công" [(ngModel)]="advertisment.successLoginUrl" type="text">
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Target theo quán</span>
+                    </ion-col>
+                    <ion-col>
+                        <div class="wa-input" (click)="selectTarget()">
+                            <span class="text" nowrap>{{advertisment.target || "Không có"}} </span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <span nowrap>Hệ điều hành</span>
+                    </ion-col>
+                    <ion-col>
+                        <div class="wa-input" (click)="selectOS()">
+                            <span class="text" nowrap> {{advertisment.operatingSystem || 'Tất cả'}}</span>
+                            <span class="icon-right"><ion-icon name="ios-arrow-dropdown"></ion-icon></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <div style="height: 20px"></div>
+    </div>
+</ion-content>
+<div class="wa-header">
+    <span class="wa-header-icon-left" (click)="onClickBack()"><ion-icon name="ios-arrow-round-back-outline"></ion-icon></span>
+    <span class="wa-header-title">{{title}}</span>
+    <span class="wa-header-icon" (click)="onClickBack()"><i class="fa fa-check" aria-hidden="true"></i> </span>
+</div>

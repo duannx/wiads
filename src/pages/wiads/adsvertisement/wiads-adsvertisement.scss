@@ -1,1 +1,69 @@
-page-wiads-advertisement {}
+page-wiads-advertisement {
+    .wa-title-bar {
+        position: relative;
+        margin-bottom: 5px;
+    }
+    .add-button {
+        padding: 5px 10px;
+        border-radius: 10px;
+        background-color: transparent;
+        border: solid 1px map-get($WiadsColors, primary);
+        color: map-get($WiadsColors, primary);
+        float: right;
+        margin: (map-get($WiadsSize, lineheight) *2 - map-get($WiadsSize, fontsize) - 10px)/2 10px;
+        line-height: map-get($WiadsSize, fontsize);
+        font-size: map-get($WiadsSize, fontsize);
+    }
+    .chart-container {
+        margin-bottom: 20px;
+    }
+    [super-white],
+    [super-white] * {
+        background-color: #FFF;
+    }
+    .ad-list {
+        .label {
+            white-space: normal;
+            font-size: map-get($WiadsSize, fontsize);
+            padding: 0;
+            margin: 5px 0;
+            width: 100%;
+        }
+        .item-inner {
+            padding: 0 !important;
+        }
+        ion-col {
+            line-height: map-get($WiadsSize, fontsize)*1.1;
+            height: 2 * map-get($WiadsSize, fontsize) * 1.1;
+        }
+        ion-row {
+            height: 2 * map-get($WiadsSize, fontsize);
+        }
+        ion-item,
+        .input-wrapper,
+        .item-inner {
+            height: 40px;
+            min-height: 40px;
+            max-height: 40px;
+        }
+        ion-item-options {
+            button {
+                background: transparent !important;
+                width: 40px;
+                overflow: hidden;
+            }
+            .view-button {
+                color: map-get($WiadsColors, secondary);
+            }
+            .edit-button {
+                color: map-get($WiadsColors, primary);
+            }
+            .delete-button {
+                color: map-get($WiadsColors, red);
+            }
+        }
+    }
+    .item {
+        padding: 0 !important;
+    }
+}

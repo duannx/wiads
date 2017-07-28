@@ -1,0 +1,18 @@
+page-advertisment-detail {
+    .segment-button {
+        background: transparent !important;
+        border: none !important;
+        color: gray !important;
+        border-radius: 0 !important;
+        height: 40px !important;
+        line-height: 40px !important;
+        border-bottom: 1px solid #ddd !important;
+        &.segment-activated {
+            border-bottom: 3px solid map-get($WiadsColors, primary) !important;
+            color: #000 !important;
+        }
+    }
+    .wa-header-icon {
+        background-color: #fc951c;
+    }
+}
